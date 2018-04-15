@@ -11,8 +11,8 @@ export TRAVIS_REPO_SLUG="username/reponame"
 export TRAVIS_JOB_NUMBER=JobNo.1
 
 # Matrix
-matrix="Win32Gui"
-#matrix="QQcoind"
+#matrix="Win32Gui"
+matrix="QQcoind"
 #matrix="Cross-Mac"
 
 # For `matrix="Cross-Mac"'
