@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Name=QQcoin Core
+Comment=Connect to the QQcoin P2P Network
+Comment[de]=Verbinde mit dem QQcoin peer-to-peer Netzwerk
+Comment[fr]=QQcoin, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=QQcoin, eşten eşe kriptografik sanal para birimi
+Exec=QQcoin-qt %u
+Terminal=false
+Type=Application
+Icon=QQcoin128
+MimeType=x-scheme-handler/QQcoin;
+Categories=Office;Finance;
+StartupWMClass=QQcoin-qt

@@ -1,0 +1,157 @@
+
+## <summary>policy for QQcoin</summary>
+
+
+########################################
+## <summary>
+##	Transition to QQcoin.
+## </summary>
+## <param name="domain">
+## <summary>
+##	Domain allowed to transition.
+## </summary>
+## </param>
+#
+interface(`QQcoin_domtrans',`
+	gen_require(`
+		type QQcoin_t, QQcoin_exec_t;
+	')
+
+	corecmd_search_bin($1)
+	domtrans_pattern($1, QQcoin_exec_t, QQcoin_t)
+')
+
+
+########################################
+## <summary>
+##	Execute QQcoin server in the QQcoin domain.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`QQcoin_initrc_domtrans',`
+	gen_require(`
+		type QQcoin_initrc_exec_t;
+	')
+
+	init_labeled_script_domtrans($1, QQcoin_initrc_exec_t)
+')
+
+
+########################################
+## <summary>
+##	Search QQcoin lib directories.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`QQcoin_search_lib',`
+	gen_require(`
+		type QQcoin_var_lib_t;
+	')
+
+	allow $1 QQcoin_var_lib_t:dir search_dir_perms;
+	files_search_var_lib($1)
+')
+
+########################################
+## <summary>
+##	Read QQcoin lib files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`QQcoin_read_lib_files',`
+	gen_require(`
+		type QQcoin_var_lib_t;
+	')
+
+	files_search_var_lib($1)
+	read_files_pattern($1, QQcoin_var_lib_t, QQcoin_var_lib_t)
+')
+
+########################################
+## <summary>
+##	Manage QQcoin lib files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`QQcoin_manage_lib_files',`
+	gen_require(`
+		type QQcoin_var_lib_t;
+	')
+
+	files_search_var_lib($1)
+	manage_files_pattern($1, QQcoin_var_lib_t, QQcoin_var_lib_t)
+')
+
+########################################
+## <summary>
+##	Manage QQcoin lib directories.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`QQcoin_manage_lib_dirs',`
+	gen_require(`
+		type QQcoin_var_lib_t;
+	')
+
+	files_search_var_lib($1)
+	manage_dirs_pattern($1, QQcoin_var_lib_t, QQcoin_var_lib_t)
+')
+
+
+########################################
+## <summary>
+##	All of the rules required to administrate
+##	a QQcoin environment
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+## <param name="role">
+##	<summary>
+##	Role allowed access.
+##	</summary>
+## </param>
+## <rolecap/>
+#
+interface(`QQcoin_admin',`
+	gen_require(`
+		type QQcoin_t;
+		type QQcoin_initrc_exec_t;
+		type QQcoin_var_lib_t;
+	')
+
+	allow $1 QQcoin_t:process { ptrace signal_perms };
+	ps_process_pattern($1, QQcoin_t)
+
+	QQcoin_initrc_domtrans($1)
+	domain_system_change_exemption($1)
+	role_transition $2 QQcoin_initrc_exec_t system_r;
+	allow $2 system_r;
+
+	files_search_var_lib($1)
+	admin_pattern($1, QQcoin_var_lib_t)
+
+')
+
