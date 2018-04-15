@@ -11,9 +11,9 @@ export TRAVIS_REPO_SLUG="username/reponame"
 export TRAVIS_JOB_NUMBER=JobNo.1
 
 # Matrix
-#matrix="Win32Gui"
+matrix="Win32Gui"
 #matrix="QQcoind"
-matrix="Cross-Mac"
+#matrix="Cross-Mac"
 
 # For `matrix="Cross-Mac"'
 # sudo pip install ez_setup
